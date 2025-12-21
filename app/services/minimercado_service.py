@@ -24,3 +24,12 @@ class MinimercadoService:
         productos.append(jsonable_encoder(producto))
         self.repo_prod.save_all(productos)
         return producto
+    
+    def actualizar_producto(self, producto_id: str, datos: dict):
+        productos = self.repo_prod.get_all()
+        for p in productos:
+            if p['id'] == producto_id:
+                p.update(datos)
+                self.repo_prod.save_all(productos)
+                return p
+        raise HTTPException(status_code=404, detail="No encontrado")
