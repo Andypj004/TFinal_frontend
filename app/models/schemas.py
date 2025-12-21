@@ -23,6 +23,12 @@ class ProductoUpdate(BaseModel):
     categoria: Optional[str] = None
     active: Optional[bool] = None
 
+class Cliente(BaseModel):
+    id: str # Cédula o RUC [cite: 500]
+    nombre: str
+    email: str
+    puntosFidelidad: int = 0
+    
 
 
 
