@@ -33,3 +33,11 @@ class MinimercadoService:
                 self.repo_prod.save_all(productos)
                 return p
         raise HTTPException(status_code=404, detail="No encontrado")
+    
+    def eliminar_producto(self, producto_id: str):
+        productos = self.repo_prod.get_all()
+        nueva_lista = [p for p in productos if p['id'] != producto_id]
+        if len(nueva_lista) == len(productos):
+            raise HTTPException(status_code=404, detail="No encontrado")
+        self.repo_prod.save_all(nueva_lista)
+        return {"message": "Eliminado exitosamente"}
