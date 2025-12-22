@@ -1,10 +1,10 @@
-Sistema de Gestión de Minimercado 
+# Sistema de Gestión de Minimercado 
 
 Backend desarrollado en **FastAPI** para la gestión de inventario, ventas, clientes y caja de un minimercado.  
 La aplicación expone servicios REST documentados automáticamente mediante **Swagger (OpenAPI 3.0)**.
 
 
-Tecnologías utilizadas
+## Tecnologías utilizadas
 
 - Python 3.12  
 - FastAPI  
@@ -15,20 +15,28 @@ Tecnologías utilizadas
 - Git y GitHub  
 
 
-Estructura del proyecto
+## Estructura del proyecto
 
 app/
 ├── main.py
+
 ├── controllers/
+
 ├── services/
+
 ├── repositories/
+
 ├── models/
+
 data/
+
 ├── productos.json
+
 ├── clientes.json
+
 ├── ventas.json
 
-Ejecución del proyecto
+## Ejecución del proyecto
 
 1. Instalar dependencias:
 
@@ -44,7 +52,7 @@ Ejecución del proyecto
 
     Swagger UI: http://127.0.0.1:8000/docs
 
-Documentación con Swagger
+## Documentación con Swagger
 
 FastAPI genera automáticamente la documentación interactiva mediante Swagger UI, permitiendo:
 
@@ -58,7 +66,7 @@ FastAPI genera automáticamente la documentación interactiva mediante Swagger U
 
 La documentación está disponible en la ruta /docs.
 
-Funcionalidades principales
+## Funcionalidades principales
 
 - Gestión de productos e inventario
 
@@ -70,5 +78,6 @@ Funcionalidades principales
 
 - Reportes básicos de inventario y ventas
 
-Trabajo colaborativo
+## Trabajo colaborativo
+
 El proyecto se desarrolla de forma colaborativa utilizando GitHub, donde cada integrante aporta mediante commits y actualizaciones de la aplicación individuales, permitiendo evidenciar el trabajo en equipo y el control de versiones.
