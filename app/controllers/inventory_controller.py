@@ -102,3 +102,32 @@ def nuevo_cliente(
 )
 def listar_clientes(service: MinimercadoService = Depends(get_service)):
     return service.repo_cli.get_all()
+
+# --- ÁREA: VENTAS (Rol: Cajero) ---
+@router.post(
+    "/ventas/facturar",
+    tags=["Ventas y Facturación"],
+    summary="Registrar venta y generar factura",
+    description="Procesa una venta, valida stock, genera factura y acumula puntos.",
+    response_model=Venta
+)
+def crear_factura(
+    cliente_id: str,
+    carrito: list[ItemCarrito] = Body(
+        ...,
+        description="Lista de productos con cantidades a comprar"
+    ),
+    service: MinimercadoService = Depends(get_service)
+):
+    carrito_dict = [item.dict() for item in carrito]
+    return service.procesar_venta_completa(cliente_id, carrito_dict)
+
+
+@router.get(
+    "/ventas/historial",
+    tags=["Ventas y Facturación"],
+    summary="Consultar historial de ventas",
+    description="Devuelve el historial completo de ventas registradas."
+)
+def historial_ventas(service: MinimercadoService = Depends(get_service)):
+    return service.repo_ventas.get_all()
