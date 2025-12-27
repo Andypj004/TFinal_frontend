@@ -18,3 +18,12 @@ def test_recepcion_mercancia(client):
 
 def test_reporte_valor(client):
     """ Test del reporte del valor total del inventario. """
+    
+    response = client.get("/inventario/reporte-valor")
+
+    assert response.status_code == 200
+
+    data = response.json()
+    assert "valor_total_inventario" in data
+    assert "items" in data
+    assert isinstance(data["valor_total_inventario"], (int, float))
