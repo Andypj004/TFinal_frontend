@@ -16,3 +16,5 @@ def test_recepcion_mercancia(client):
     response = client.post("/inventario/recepcion/P100?cantidad=5")
     assert response.status_code == 200
 
+def test_reporte_valor(client):
+    """ Test del reporte del valor total del inventario. """
