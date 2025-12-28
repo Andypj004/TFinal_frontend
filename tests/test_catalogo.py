@@ -26,4 +26,16 @@ def test_crear_producto_precio_cero(client):
     # por lo que el endpoint puede aceptar el valor (200),
     # rechazarlo por lógica de negocio (400) o por validación (422).
     # La prueba contempla estos escenarios para ser robusta e idempotente.
+        response = client.post(
+        "/catalogo/crear",
+        json={
+            "id": "P002",
+            "nombre": "Azúcar",
+            "codigoBarras": "0987654321",
+            "precio": 0,
+            "categoria": "Granos",
+            "stock": 5
+        }
+    )
+
 
