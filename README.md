@@ -1,149 +1,197 @@
-# 🛒 Sistema de Gestión de Minimercado – FastAPI
+# Sistema de Gestion de Minimercado
 
-Este proyecto corresponde al desarrollo de una **API REST para la gestión de un minimercado**, implementada como parte de la **Tarea T02.03** y extendida con **pruebas unitarias (T02.04)** de la carrera de Ingeniería de Software – Universidad Politécnica Salesiana.
+API REST para la gestion de un minimercado con frontend en React. Permite administrar productos, controlar inventario, registrar clientes y procesar ventas con historial.
 
-La aplicación permite administrar productos, controlar inventario y registrar ventas, siguiendo una arquitectura organizada basada en **controladores, servicios, repositorios y modelos**.
+## Caracteristicas
 
----
+- Catalogo de productos (listar, crear y eliminar).
+- Inventario con alertas de stock bajo y recepcion de mercancia.
+- Registro y listado de clientes con puntos de fidelidad.
+- Facturacion de ventas y consulta de historial.
+- Reportes de ventas e inventario con exportacion a Excel.
 
-## 🚀 Tecnologías Utilizadas
+## Tecnologias
 
-- **Python 3.10**
-- **FastAPI**
-- **Uvicorn**
-- **Pydantic**
-- **Pytest**
-- **Coverage.py (pytest-cov)**
+Backend:
+- Python 3.10
+- FastAPI
+- Pydantic
+- Uvicorn
+- Pytest + pytest-cov
 
----
+Frontend:
+- React + Vite
+- Tailwind CSS
+- lucide-react
+- xlsx + file-saver
 
-## 📂 Estructura del Proyecto
+## Estructura del proyecto
 
--T02_03_minimercado
+```
+TFinal_fronetd
 ├── app
-│ ├── controllers
-│ ├── models
-│ ├── repositories
-│ ├── services
-│ ├── init.py
-│ └── main.py
+│   ├── controllers
+│   ├── models
+│   ├── repositories
+│   ├── services
+│   └── main.py
+├── frontend
+│   ├── src
+│   └── package.json
 ├── tests
-│ ├── conftest.py
-│ ├── test_catalogo.py
-│ ├── test_inventario.py
-│ └── test_ventas.py
 ├── requirements.txt
-├── README.md
-└── .gitignore
+└── README.md
+```
 
+## Configuracion del backend
 
----
+### 1) Crear y activar entorno virtual
 
-## 🧪 Entorno Virtual (Recomendado)
-
-Para garantizar la correcta ejecución del proyecto y evitar conflictos entre dependencias, se recomienda el uso de un **entorno virtual de Python**.
-
-### 1️⃣ Crear entorno virtual
-
-Desde la raíz del proyecto:
+Windows (PowerShell):
 
 ```bash
 python -m venv venv
-
-
-2️⃣ Activar entorno virtual
-
-Windows
-
 venv\Scripts\activate
+```
 
-Al activarlo, la consola mostrará:
+Linux/Mac:
 
-(venv)
+```bash
+python -m venv venv
+source venv/bin/activate
+```
 
-Ejecución del Proyecto
-1️⃣ Instalar dependencias del proyecto
+### 2) Instalar dependencias
 
-Con el entorno virtual activado:
-
+```bash
 pip install -r requirements.txt
+```
 
-Ejecutar la aplicación
+### 3) Ejecutar servidor
 
-Desde la raíz del proyecto:
-
+```bash
 uvicorn app.main:app --reload
+```
 
-Abrir en el navegador:
+Abrir:
+- Swagger: http://127.0.0.1:8000/docs
+- Root: http://127.0.0.1:8000/
 
-http://127.0.0.1:8000/docs
+## Configuracion del frontend
 
+### 1) Instalar dependencias
 
+```bash
+cd frontend
+npm install
+```
 
-Testing con Pytest (T02.04)
+### 2) Configurar URL del backend (opcional)
 
-git clone https://github.com/josephTc2003/-T02_03_minimercado.git
-cd -T02_03_minimercado
+Por defecto se usa http://127.0.0.1:8000. Para cambiarla, crea `frontend/.env`:
 
-Archivo .gitignore
+```bash
+VITE_API_BASE=http://127.0.0.1:8000
+```
 
-venv/
-__pycache__/
-.pytest_cache/
-htmlcov/
-.env
+### 3) Iniciar frontend
 
-Instalación de dependencias para testing
+```bash
+npm run dev
+```
 
-Con el entorno virtual activado:
+Abrir: http://localhost:5173
 
+## Endpoints del backend
+
+Catalogo:
+- GET /catalogo
+- POST /catalogo/crear
+- DELETE /catalogo/eliminar/{id}
+
+Inventario:
+- POST /inventario/recepcion/{id}?cantidad=INT
+- GET /inventario/reporte-valor
+- GET /inventario/alertas?limite=INT
+
+Clientes:
+- POST /clientes/registrar
+- GET /clientes/lista
+
+Ventas:
+- POST /ventas/facturar?cliente_id=ID
+- GET /ventas/historial
+
+## Ejemplos de uso
+
+Crear producto:
+
+```bash
+curl -X POST http://127.0.0.1:8000/catalogo/crear \
+  -H "Content-Type: application/json" \
+  -d '{"id":"P001","nombre":"Arroz","codigoBarras":"123456","precio":2.5,"categoria":"Granos","stock":10}'
+```
+
+Registrar cliente:
+
+```bash
+curl -X POST http://127.0.0.1:8000/clientes/registrar \
+  -H "Content-Type: application/json" \
+  -d '{"id":"0102030405","nombre":"Maria Torres","email":"maria@email.com"}'
+```
+
+Facturar venta:
+
+```bash
+curl -X POST "http://127.0.0.1:8000/ventas/facturar?cliente_id=0102030405" \
+  -H "Content-Type: application/json" \
+  -d '[{"id":"P001","cantidad":2}]'
+```
+
+## Testing
+
+Instalar dependencias adicionales:
+
+```bash
 pip install pytest pytest-cov httpx
+```
 
+Ejecutar pruebas:
 
-Ejecutar pruebas unitarias
-
-Desde la raíz del proyecto:
-
+```bash
 pytest
+```
 
-Ejecutar análisis de cobertura
+Cobertura:
+
+```bash
 pytest --cov=app --cov-report=term-missing
+```
 
-❌ ModuleNotFoundError: No module named 'fastapi'
+## Datos y persistencia
 
-Causa:
-FastAPI no estaba instalada en el entorno virtual activo.
+Los datos se guardan en archivos JSON dentro de la carpeta `data/`:
+- productos.json
+- clientes.json
+- ventas.json
 
-Solución:
+## CORS
 
-pip install -r requirements.txt
+El backend permite llamadas desde el frontend Vite:
+- http://localhost:5173
+- http://127.0.0.1:5173
 
-❌ ModuleNotFoundError: No module named 'httpx'
+Si despliegas en otro dominio, ajusta la configuracion en `app/main.py`.
 
-Causa:
-La librería httpx no estaba instalada. Es utilizada por TestClient de FastAPI para ejecutar pruebas sin levantar el servidor.
+## Solucion de problemas
 
-Solución:
+- ModuleNotFoundError: instala dependencias con `pip install -r requirements.txt`.
+- Error 422: revisa que el JSON enviado cumpla el esquema.
+- Error 400 por duplicado: usa un ID o codigo de barras unico.
+- Error CORS en frontend: verifica que la URL del frontend este incluida en CORS.
 
-pip install httpx
+## Licencia
 
-❌ Error al ejecutar Uvicorn desde la carpeta incorrecta
-
-Causa:
-El servidor fue ejecutado desde la carpeta app/.
-
-Solución correcta:
-
-uvicorn app.main:app --reload
-
-❌ Pytest no mide cobertura
-
-Causa:
-La librería pytest-cov no estaba instalada.
-
-Solución:
-
-pip install pytest-cov
-pytest --cov=app --cov-report=term-missing
+Proyecto academico. Uso libre para fines educativos.
 
 
